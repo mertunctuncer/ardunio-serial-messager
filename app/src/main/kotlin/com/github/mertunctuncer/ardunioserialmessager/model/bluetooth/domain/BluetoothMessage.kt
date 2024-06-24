@@ -1,4 +1,4 @@
-package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth
+package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.domain
 
 data class BluetoothMessage(
     val timestamp: Long,

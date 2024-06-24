@@ -1,4 +1,4 @@
-package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth
+package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.scan
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,6 +9,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.domain.BluetoothDeviceWrapper
+import com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.domain.asBluetoothDeviceWrapper
 import com.github.mertunctuncer.ardunioserialmessager.util.ContextOwner
 import com.github.mertunctuncer.ardunioserialmessager.util.Log
 import com.github.mertunctuncer.ardunioserialmessager.util.TagOwner
@@ -46,10 +48,10 @@ class BluetoothScanService(
         }
 
         bluetoothAdapter.startDiscovery()
-        _isScanning.update { true }
-
-        Log.info("Started scan.")
         Log.debug("Started discovery.")
+
+        _isScanning.update { true }
+        Log.info("Started scan.")
     }
 
 
@@ -58,6 +60,8 @@ class BluetoothScanService(
         if(!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) return
 
         bluetoothAdapter.cancelDiscovery()
+        Log.debug("Cancelled discovery.")
+
         _isScanning.update { false }
         Log.info("Stopped scan.")
     }

@@ -1,5 +1,6 @@
-package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth
+package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.scan
 
+import com.github.mertunctuncer.ardunioserialmessager.model.bluetooth.domain.BluetoothDeviceWrapper
 import kotlinx.coroutines.flow.StateFlow
 
 interface ScanService: AutoCloseable {
