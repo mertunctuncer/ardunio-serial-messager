@@ -79,7 +79,11 @@ class BluetoothScanService(
                 @Suppress("DEPRECATION")
                 intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
             }?.asBluetoothDeviceWrapper()?.let {
-                Log.info("Found device: ${it.name}")
+                Log.verbose(
+                    "Found device |\t" +
+                        "Name:\t${it.name}\t" +
+                        "MAC:\t${it.address}"
+                )
                 if (!_scannedDevices.value.contains(it)) _scannedDevices.update { devices -> devices + it }
             }
         }
