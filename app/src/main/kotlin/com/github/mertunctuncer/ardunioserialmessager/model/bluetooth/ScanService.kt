@@ -1,4 +1,4 @@
-package com.github.mertunctuncer.ardunioserialmessager.bluetooth
+package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth
 
 import kotlinx.coroutines.flow.StateFlow
 

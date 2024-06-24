@@ -1,4 +1,4 @@
-package com.github.mertunctuncer.ardunioserialmessager.bluetooth
+package com.github.mertunctuncer.ardunioserialmessager.model.bluetooth
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -10,10 +10,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import com.github.mertunctuncer.ardunioserialmessager.util.ContextOwner
+import com.github.mertunctuncer.ardunioserialmessager.util.Log
 import com.github.mertunctuncer.ardunioserialmessager.util.TagOwner
-import com.github.mertunctuncer.ardunioserialmessager.util.debug
 import com.github.mertunctuncer.ardunioserialmessager.util.hasPermission
-import com.github.mertunctuncer.ardunioserialmessager.util.info
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,8 +48,8 @@ class BluetoothScanService(
         bluetoothAdapter.startDiscovery()
         _isScanning.update { true }
 
-        info("Started scan.")
-        debug("Started discovery.")
+        Log.info("Started scan.")
+        Log.debug("Started discovery.")
     }
 
 
@@ -60,13 +59,13 @@ class BluetoothScanService(
 
         bluetoothAdapter.cancelDiscovery()
         _isScanning.update { false }
-        info("Stopped scan.")
+        Log.info("Stopped scan.")
     }
 
     override fun close() {
         context.unregisterReceiver(scanReceiver)
         stopScan()
-        info("Service closed.")
+        Log.info("Service closed.")
     }
 
     private val scanReceiver = object : BroadcastReceiver() {
@@ -80,18 +79,13 @@ class BluetoothScanService(
                 @Suppress("DEPRECATION")
                 intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
             }?.asBluetoothDeviceWrapper()?.let {
-                info("Found device: ${it.name}")
-                if (!_scannedDevices.value.contains(it))
-                    _scannedDevices.update { devices -> devices + it }
+                Log.info("Found device: ${it.name}")
+                if (!_scannedDevices.value.contains(it)) _scannedDevices.update { devices -> devices + it }
             }
         }
     }
 
     init {
         context.registerReceiver(scanReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
-    }
-
-    companion object {
-        private val TAG = this::class.simpleName
     }
 }
